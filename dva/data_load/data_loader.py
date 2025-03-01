@@ -1,7 +1,7 @@
 # -*-Encoding: utf-8 -*-
 import os
 import pandas as pd
-
+import numpy as np
 import torch
 from torch.utils.data import Dataset, DataLoader
 from utils.timefeatures import time_features
@@ -23,6 +23,14 @@ class StandardScaler(object):
         std = torch.from_numpy(self.std).type_as(data).to(data.device) if torch.is_tensor(data) else self.std
         return (data - mean) / std
 
+    # denormalize the data
+    def inverse_transform(self, data):
+        mean = torch.from_numpy(self.mean).type_as(data).to(data.device) if torch.is_tensor(data) else self.mean
+        std = torch.from_numpy(self.std).type_as(data).to(data.device) if torch.is_tensor(data) else self.std
+        if data.shape[-1] != mean.shape[-1]:
+            mean = mean[-1:]
+            std = std[-1:]
+        return (data * std) + mean
 
 class Dataset_Custom(Dataset):
     def __init__(self, root_path, flag='train', size=None, data_path='AAPL.csv'):

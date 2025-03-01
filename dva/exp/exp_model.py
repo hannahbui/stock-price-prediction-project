@@ -158,13 +158,16 @@ class Exp_Model(object):
     def test(self, setting):
         copy_parameters(self.denoise_net, self.pred_net)
         test_data, test_loader = self._get_data(flag='test')
+        
+        scaler = test_data.scaler 
+
         preds = []
         trues = []
         noisy = []
         input = []
         for i, (batch_x, batch_y, batch_x_mark, batch_y_mark) in enumerate(test_loader):
             batch_x = batch_x.float().to(self.device)
-            batch_y = batch_y[...,-self.args.target_dim:].float().to(self.device)
+            batch_y = batch_y[..., -2:-1].float().to(self.device)  # Ensure target variable is correctly extracted
             batch_x_mark = batch_x_mark.float().to(self.device)
             noisy_out, out = self.pred_net(batch_x, batch_x_mark)
             # print(out.shape, batch_y.shape)
@@ -179,15 +182,14 @@ class Exp_Model(object):
         # print('test shape:', preds.shape, trues.shape)
         preds = preds.reshape(-1, preds.shape[-2], preds.shape[-1])
         trues = trues.reshape(-1, trues.shape[-2], trues.shape[-1])
+
+        # denormalize data before evaluating 
+        preds = test_data.scaler.inverse_transform(preds)
+        trues = test_data.scaler.inverse_transform(trues)
+        print(trues[:30]) # check if the data is normalize correct or not 
+
         # print('test shape:', preds.shape, trues.shape)
         mse = np.mean((preds - trues) ** 2)
         print('mse:{}'.format(mse))
 
-        # folder_path = './results/' + setting +'/'
-        # if not os.path.exists(folder_path):
-        #     os.makedirs(folder_path)
-        # np.save(folder_path + 'pred.npy', preds)
-        # np.save(folder_path + 'noisy.npy', noisy)
-        # np.save(folder_path + 'true.npy', trues)
-        # np.save(folder_path + 'input.npy', input)
         return mse
