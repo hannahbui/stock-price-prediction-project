@@ -1,26 +1,13 @@
-# Test Period 2016, Sequence Length 10
-python main.py --root_path data/2016 --sequence_length 10
-# Test Period 2016, Sequence Length 20
-python main.py --root_path data/2016 --sequence_length 20
-# Test Period 2016, Sequence Length 40
-python main.py --root_path data/2016 --sequence_length 40
-# Test Period 2016, Sequence Length 60
-python main.py --root_path data/2016 --sequence_length 60
+# Run the data of Apple, Amazon, Google, Microsoft with 10 days data input, 5 days data output
 
-# Test Period 2019, Sequence Length 10
-python main.py --root_path data/2019 --sequence_length 10
-# Test Period 2019, Sequence Length 20
-python main.py --root_path data/2019 --sequence_length 20
-# Test Period 2019, Sequence Length 40
-python main.py --root_path data/2019 --sequence_length 40
-# Test Period 2019, Sequence Length 60
-python main.py --root_path data/2019 --sequence_length 60
+# Apple
+python main.py --root_path data/new_data_headers/Apple --sequence_length 10
 
-# Test Period 2022, Sequence Length 10
-python main.py --root_path data/2022 --sequence_length 10
-# Test Period 2022, Sequence Length 20
-python main.py --root_path data/2022 --sequence_length 20
-# Test Period 2022, Sequence Length 40
-python main.py --root_path data/2022 --sequence_length 40
-# Test Period 2022, Sequence Length 60
-python main.py --root_path data/2022 --sequence_length 60
+# Amazon
+python main.py --root_path data/new_data_headers/Amazon --sequence_length 10
+
+# Google
+python main.py --root_path data/new_data_headers/Google --sequence_length 10
+
+# Microsoft
+python main.py --root_path data/new_data_headers/Microsoft --sequence_length 10
