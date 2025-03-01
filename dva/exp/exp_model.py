@@ -191,5 +191,11 @@ class Exp_Model(object):
         # print('test shape:', preds.shape, trues.shape)
         mse = np.mean((preds - trues) ** 2)
         print('mse:{}'.format(mse))
+        mae = np.mean(np.abs(preds - trues))
+        print('mae:{}'.format(mae))
+        rmse = np.sqrt(np.mean((preds - trues) ** 2))
+        print('rmse:{}'.format(rmse))
+        mape = np.mean(np.abs((trues - preds) / trues)) * 100
+        print('mape:{}'.format(mape))
 
         return mse
